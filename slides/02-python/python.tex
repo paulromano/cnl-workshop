@@ -5,6 +5,7 @@
 \usefonttheme{professionalfonts}
 
 \usepackage[bitstream-charter]{mathdesign} % Use BT Charter font
+\usepackage{beramono}                      % Use Vera Mono for \ttfamily
 \usepackage[T1]{fontenc}                   % Use T1 encoding instead of OT1
 \usepackage[utf8]{inputenc}                % Use UTF8 input encoding
 \usepackage{microtype}                     % Improve typography
@@ -33,6 +34,9 @@
   framesep=2mm
 }
 
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\newcommand{\obj}[1]{\texttt{\color{darkblue}#1}}
+
 % -----------------------------------------------------------------------------
 \title{Python 101}
 
@@ -47,7 +51,7 @@
 
 % -----------------------------------------------------------------------------
 \begin{frame}{Python}
-  Python is often thought of as a ``scripting'' language
+  Python is often referred to as a ``scripting'' language
   \begin{itemize}
   \item Dynamically typed (type of variable interpreted at runtime)
   \item Implicitly typed (type of variable never declared)
@@ -56,17 +60,23 @@
   \item Containers are zero-indexed
   \item Whitespace used to denote blocks (rather than \{ \} as in other
     languages)
+  \item Traditional implementation (CPython) is interpreted (it doesn't have to
+    be)
   \end{itemize}
+  \vfill
+  \begin{tcolorbox}[title=NOTE]
+    This introduction is based on Python 3.
+  \end{tcolorbox}
 \end{frame}
 
 \begin{frame}{Built-in types}
   \begin{itemize}
-  \item Boolean: \texttt{bool}
-  \item Numeric types: \texttt{int}, \texttt{float}, \texttt{complex}
-  \item Text sequence: \texttt{str}
-  \item Sequence types: \texttt{list}, \texttt{tuple}
-  \item Set types: \texttt{set}
-  \item Mapping types: \texttt{dict}
+  \item Boolean: \obj{bool}
+  \item Numeric types: \obj{int}, \obj{float}, \obj{complex}
+  \item Text sequence: \obj{str}
+  \item Sequence types: \obj{list}, \obj{tuple}
+  \item Set types: \obj{set}
+  \item Mapping types: \obj{dict}
   \end{itemize}
   % Sets and dicts are not ordered
 \end{frame}
@@ -74,8 +84,8 @@
 \begin{frame}{Numeric types}
   \begin{itemize}
   \item Operations: +, -, *, /, //, \%, **
-  \item Functions: \texttt{abs}, \texttt{math.sqrt}, \texttt{math.exp},
-    \texttt{math.cos}, ...
+  \item Functions: \obj{abs}, \obj{math.sqrt}, \obj{math.exp},
+    \obj{math.cos}, ...
   \end{itemize}
   % Show basic use of operators
   % Show conversions between types
@@ -84,22 +94,22 @@
 
 \begin{frame}{Strings}
   \begin{itemize}
-  \item \texttt{'...'}, \texttt{"..."}, \texttt{"""..."""}
-  \item Methods: \texttt{upper()}, \texttt{find()}, \texttt{strip()},
-    \texttt{split()}, ...
-  \item Get length with \texttt{len()}
+  \item \obj{'...'}, \obj{"..."}, \obj{"""..."""}
+  \item Methods: \obj{upper()}, \obj{find()}, \obj{strip()},
+    \obj{split()}, ...
+  \item Get length with \obj{len()}
   \item Can add, multiply strings
-  \item \texttt{format()} method can be used to substitute variables in strings
+  \item \obj{format()} method can be used to substitute variables in strings
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Booleans}
   \begin{itemize}
-  \item \texttt{True} and \texttt{False}
-  \item Result from comparison operators: <, <=, >, <=, !=, ==, \texttt{is},
-    \texttt{is not},
-  \item Used in \texttt{if} amd \texttt{while} loops
-  \item Logical operators: \texttt{and}, \texttt{or}, \texttt{not}
+  \item \obj{True} and \obj{False}
+  \item Result from comparison operators: <, <=, >, <=, !=, ==, \obj{is},
+    \obj{is not},
+  \item Used in \obj{if} amd \obj{while} loops
+  \item Logical operators: \obj{and}, \obj{or}, \obj{not}
   \end{itemize}
 \end{frame}
 
@@ -107,15 +117,15 @@
   \begin{itemize}
   \item List: an ordered, mutable collection of objects
     \begin{itemize}
-    \item Methods: \texttt{append()}, \texttt{insert()}, \texttt{reverse()},
-      \texttt{pop()}, \texttt{sort()}, ...
-    \item Construct with \texttt{list()} or \texttt{[...]}
+    \item Methods: \obj{append()}, \obj{insert()}, \obj{reverse()},
+      \obj{pop()}, \obj{sort()}, ...
+    \item Construct with \obj{list()} or \obj{[...]}
     \end{itemize}
   \item Tuple: an ordered, immutable collection of immutable objects
     \begin{itemize}
-    \item Construct with \texttt{tuple()} or \texttt{(...)}
+    \item Construct with \obj{tuple()} or \obj{(...)}
     \end{itemize}
-  \item Can get length with \texttt{len()}
+  \item Can get length with \obj{len()}
   \item Indexed from 0
   \item Negative indexing can be used to count from end
   \item Can refer to ``slices''
@@ -132,9 +142,9 @@
             statement 2
             ...
     \end{python}
-  \item Lines below the \texttt{if} must be indented the same
-  \item In an \texttt{if} statement, any of the following are considered
-    \texttt{False}: \texttt{None}, 0, empty sequence or mapping
+  \item Lines below the \obj{if} must be indented the same
+  \item In an \obj{if} statement, any of the following are considered
+    \obj{False}: \obj{None}, 0, empty sequence or mapping
   \end{itemize}
 \end{frame}
 
@@ -158,7 +168,7 @@
 
 \begin{frame}[fragile]{Integer sequences}
   \begin{itemize}
-  \item Special \texttt{range} type that represents integer sequences
+  \item Special \obj{range} type that represents integer sequences
   \item For example, all integers from 0 to 100 in intervals of 4
     \begin{python}
         for x in range(0, 100, 4):
@@ -168,7 +178,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Iteration functions}
-  \texttt{zip} creates a list of tuples
+  \obj{zip} creates a list of tuples
   \begin{python}
     numbers = [3, 2, 5, 2]
     words = ['this', 'workshop', 'is', 'cool']
@@ -176,10 +186,20 @@
         print(num, word)
   \end{python}
   \vfill
-  \texttt{enumerate} gives an index of iteration
+  \obj{enumerate} gives an index of iteration
   \begin{python}
     for i, word in enumerate(words):
         print('Word {} is {}'.format(i, word))
+  \end{python}
+\end{frame}
+
+\begin{frame}[fragile]{Comprehensions}
+  \begin{python}
+    sq = [x**2 for x in range(100)]
+
+    even_sq = [x for x in sq if x % 2 == 0]
+
+    sines = {x: math.sin(x) for x in range(10)}
   \end{python}
 \end{frame}
 
@@ -256,12 +276,12 @@
       \toprule
       You write... & Python calls... \\
       \midrule
-      \texttt{x()} & \texttt{x.\_\_call\_\_()} \\
-      \texttt{str(x)} & \texttt{x.\_\_str\_\_()} \\
-      \texttt{s in x} & \texttt{x.\_\_contains\_\_(s)} \\
-      \texttt{x + y} & \texttt{x.\_\_add\_\_(y)} \\
-      \texttt{x == y} & \texttt{x.\_\_eq\_\_(y)} \\
-      \texttt{copy(x)} & \texttt{x.\_\_copy\_\_()} \\
+      \obj{x()} & \obj{x.\_\_call\_\_()} \\
+      \obj{str(x)} & \obj{x.\_\_str\_\_()} \\
+      \obj{s in x} & \obj{x.\_\_contains\_\_(s)} \\
+      \obj{x + y} & \obj{x.\_\_add\_\_(y)} \\
+      \obj{x == y} & \obj{x.\_\_eq\_\_(y)} \\
+      \obj{copy(x)} & \obj{x.\_\_copy\_\_()} \\
       \bottomrule
     \end{tabular}
   \end{table}
@@ -269,12 +289,12 @@
 
 \begin{frame}{Python Standard Library}
   \begin{itemize}
-  \item \texttt{re} --- regular expression
-  \item \texttt{collections} --- container datatypes
-  \item \texttt{math} --- mathematical functions
-  \item \texttt{random} --- pseudo-random numbers
-  \item \texttt{os, glob, shutil} --- working with files
-  \item \texttt{subprocess} -- subprocess management
+  \item \obj{re} --- regular expression
+  \item \obj{collections} --- container datatypes
+  \item \obj{math} --- mathematical functions
+  \item \obj{random} --- pseudo-random numbers
+  \item \obj{os, glob, shutil} --- working with files
+  \item \obj{subprocess} -- subprocess management
   \end{itemize}
 \end{frame}
 
@@ -296,7 +316,7 @@
 \begin{frame}{NumPy arrays}
   \begin{itemize}
   \item OpenMC's Python API uses numpy arrays extensively
-  \item \texttt{ndarray} class represent N-dimensional array of items of same
+  \item \obj{ndarray} class represent N-dimensional array of items of same
     type and size
   \item Array operations are optimized to provide performance closer to a
     low-level language
