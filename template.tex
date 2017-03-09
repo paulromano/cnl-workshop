@@ -1,0 +1,49 @@
+\documentclass[noamssymb,svgnames]{beamer}
+\usecolortheme{beaver}
+\useinnertheme[shadow]{rounded}
+\usefonttheme{serif}
+\usefonttheme{professionalfonts}
+
+\usepackage[bitstream-charter]{mathdesign} % Use BT Charter font
+\usepackage[T1]{fontenc}                   % Use T1 encoding instead of OT1
+\usepackage[utf8]{inputenc}                % Use UTF8 input encoding
+\usepackage{microtype}                     % Improve typography
+\usepackage{booktabs}
+\usepackage[binary-units]{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+
+\usepackage{hyperref}
+\hypersetup{pdfstartview=Fit}
+
+% BEAMER CONFIGURATION ---------------------------------------------------------
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamerfont{block body}{size=\scriptsize}
+\setbeamercolor{block title}{fg=darkred,bg=gray!10!white}
+\setbeamercolor*{item}{fg=darkred}
+
+% TCOLORBOX / MINTED CONFIGURATION ---------------------------------------------
+\usepackage[many,minted]{tcolorbox}
+\NewTCBListing{python}{ O{} }{listing only,minted language=python,#1}
+\setminted{
+  mathescape,
+  autogobble,
+  fontfamily=courier,
+  framesep=2mm
+}
+
+% ------------------------------------------------------------------------------
+\title{SECTION TITLE}
+
+\institute{\includegraphics[width=2in]{../images/openmc_logo.png}}
+
+\date{OpenMC Workshop \\ Canadian Nuclear Laboratories \\ March 14--16, 2017}
+
+% ------------------------------------------------------------------------------
+\begin{document}
+
+\frame{\titlepage}
+
+% ------------------------------------------------------------------------------
+
+\end{document}

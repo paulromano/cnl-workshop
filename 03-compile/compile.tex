@@ -1,0 +1,244 @@
+\documentclass[noamssymb,svgnames]{beamer}
+\usecolortheme{beaver}
+\useinnertheme[shadow]{rounded}
+\usefonttheme{serif}
+\usefonttheme{professionalfonts}
+
+\usepackage[bitstream-charter]{mathdesign} % Use BT Charter font
+\usepackage[T1]{fontenc}                   % Use T1 encoding instead of OT1
+\usepackage[utf8]{inputenc}                % Use UTF8 input encoding
+\usepackage{microtype}                     % Improve typography
+\usepackage{booktabs}
+\usepackage[binary-units]{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+
+\usepackage{hyperref}
+\hypersetup{pdfstartview=Fit}
+
+% BEAMER CONFIGURATION ---------------------------------------------------------
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamerfont{block body}{size=\scriptsize}
+\setbeamercolor{block title}{fg=darkred,bg=gray!10!white}
+\setbeamercolor*{item}{fg=darkred}
+
+% TCOLORBOX / MINTED CONFIGURATION ---------------------------------------------
+\usepackage[many,minted]{tcolorbox}
+\NewTCBListing{shell}{ O{} }{%
+  listing only,minted language=shell,%
+  minted options={fontsize=\footnotesize},#1}
+\tcbset{listing only}
+\setminted{
+  mathescape,
+  autogobble,
+  fontfamily=courier,
+  framesep=2mm
+}
+
+% ------------------------------------------------------------------------------
+\title{Compiling and Installing}
+
+\institute{\includegraphics[width=2in]{../images/openmc_logo.png}}
+
+\date{OpenMC Workshop \\ Canadian Nuclear Laboratories \\ March 14--16, 2017}
+
+% ------------------------------------------------------------------------------
+\begin{document}
+
+\frame{\titlepage}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Obtaining OpenMC}
+  \begin{enumerate}
+  \item Download tarball/zip from \url{https://github.com/mit-crpg/openmc}
+  \item Clone source using \texttt{git}:
+    \begin{shell}
+      git clone https://github.com/mit-crpg/openmc
+    \end{shell}
+  \item Conda forge
+    \begin{shell}
+        conda config --add channel conda-forge
+        conda install openmc
+    \end{shell}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Core Prerequisites}
+  \begin{table}
+    \centering
+    \footnotesize{
+    \begin{tabular}{lll}
+      \toprule
+      \textbf{Component} & \textbf{Needed for} \\
+      \midrule
+      CMake & Platform-independent build tools \\
+      Fortran compiler (gfortran) & The core codebase is written in Fortran 2008 \\
+      C compiler (gcc) & Faddeeva library is written in C \\
+      C++ compiler (g++) & pugixml library is written in C++ \\
+      HDF5 & Portable binary I/O \\
+      \textcolor{gray}{MPI} & \textcolor{gray}{Distributed-memory parallelism} \\
+      \bottomrule
+    \end{tabular}
+    }
+  \end{table}
+  \vfill
+
+  On Debian derivatives (Ubuntu), prerequisites can be obtained with:
+  \begin{shell}
+    sudo apt install cmake gfortran g++ libhdf5-dev
+  \end{shell}
+\end{frame}
+
+\begin{frame}{Python Prerequisites}
+  \begin{table}
+    \centering
+    \small{
+    \begin{tabular}{lcl}
+      \toprule
+      \textbf{Package} & \textbf{Version} & \textbf{Description} \\
+      \midrule
+      Python & 2.7 / 3.2+ &  \\
+      numpy & 1.9+ & N-dimensional arrays \\
+      h5py & 2.5+ & HDF5 file support \\
+      scipy &  & Sparse matrices, k-d tree, Faddeeva function \\
+      matplotlib &  & Plotting support \\
+      pandas & 0.16+ & Tally DataFrames \\
+      uncertainties &  & Nuclear data uncertainties \\
+      \bottomrule
+    \end{tabular}
+    }
+  \end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Using conda for Python}
+  Download and install miniconda:
+  \begin{shell}[minted options={fontsize=\tiny}]
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh
+  \end{shell}
+  \vfill
+  Make sure commands are on your path:
+  \begin{shell}
+    export PATH="$HOME/miniconda3/bin:$PATH"
+  \end{shell}
+  \vfill
+  Create and activate environment with packages needed:
+  \begin{shell}[minted options={fontsize=\tiny}]
+    conda create -n openmc numpy scipy h5py matplotlib pandas
+    source activate openmc
+  \end{shell}
+\end{frame}
+
+\begin{frame}[fragile]{Building OpenMC}
+  From root directory of repository/tar/zip:
+  \begin{shell}
+    mkdir build
+    cd build
+    cmake ..
+    make
+  \end{shell}
+  Now you should have a \texttt{bin} directory with
+  \textcolor{green!60!black}{\texttt{openmc}} inside it
+\end{frame}
+
+\begin{frame}[fragile]{Build options}
+  \begin{table}
+    \centering
+    \footnotesize{
+    \begin{tabular}{ll}
+      \toprule
+      \textbf{Option} & \textbf{What it does} \\
+      \midrule
+      debug & Compile with debug flags \\
+      optimize & Turn on compiler optimization flags \\
+      openmp & Enable shared-memory parallelism with OpenMP \\
+      profile & Compile with profiling flags \\
+      coverage & Compile with coverage analysis flags \\
+      mpif08 & Use Fortran 2008 MPI interface \\
+      \bottomrule
+    \end{tabular}
+    }
+  \end{table}
+  \vfill
+  Options are passed as followed:
+  \begin{shell}
+    cmake -Ddebug=on ..
+  \end{shell}
+  \vfill
+  If you want to see what's really going on:
+  \begin{shell}
+    make VERBOSE=1
+  \end{shell}
+\end{frame}
+
+\begin{frame}[fragile]{Building on macOS}
+  \begin{itemize}
+  \item Recommend obtaining packages via \texttt{brew}
+    \begin{shell}
+      brew install cmake gcc
+    \end{shell}
+  \item HDF5 requires the science ``tap''
+    \begin{shell}
+      brew tap homebrew/science
+      brew install hdf5 --with-fortran2003
+    \end{shell}
+  \item Commands for building are the same!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Building on Windows}
+  Recommended approach:
+  \begin{itemize}
+  \item Bash on Ubuntu on Windows 10 Anniversary
+  \end{itemize}
+  Previous attempts with limited success:
+  \begin{itemize}
+  \item Cygwin
+  \item MinGW
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Installing}
+  Once you have successfully built \textcolor{green!60!black}{\texttt{openmc}}:
+  \begin{shell}
+    make install
+  \end{shell}
+  This requires administrative privileges. To install locally:
+  \begin{shell}
+    cmake -DCMAKE_INSTALL_PREFIX=/somewhere/local ..
+    make
+    make install
+  \end{shell}
+  Under the hood, \texttt{make install} calls:
+  \begin{shell}
+    python setup.py install
+  \end{shell}
+\end{frame}
+
+\begin{frame}[fragile]{Obtaining cross section data}
+  OpenMC provides several scripts for obtaining/converting cross section files:
+  \begin{table}
+    \centering
+    \scriptsize{
+    \begin{tabular}{ll}
+      \toprule
+      \textbf{Script} & \textbf{Description} \\
+      \midrule
+      \texttt{openmc-get-nndc-data} & Download/convert NNDC ENDF/B-VII.1 ACE files \\
+      \texttt{openmc-get-jeff-data} & Download/convert JEFF 3.2 ACE files \\
+      \texttt{openmc-convert-mcnp70-data} & Convert MCNP ENDF/B-VII.0 data (endf70[a-k]) \\
+      \texttt{openmc-convert-mcnp71-data} & Convert MCNP ENDF/B-vII.1 data (endf71x) \\
+      \texttt{openmc-ace-to-hdf5} & Convert arbitrary set of ACE files \\
+      \bottomrule
+    \end{tabular}
+    }
+  \end{table}
+  \vfill
+  For convenience, set the following environment variable:
+  \begin{shell}[minted options={fontsize=\scriptsize}]
+    export OPENMC_CROSS_SECTIONS=<path>/cross_sections.xml
+  \end{shell}
+\end{frame}
+
+\end{document}
