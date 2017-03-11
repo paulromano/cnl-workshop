@@ -10,7 +10,7 @@ class CoreInputSet(object):
         self.settings = openmc.Settings()
         self.materials = openmc.Materials()
         self.geometry = openmc.Geometry()
-        self.tallies = None
+        self.tallies = openmc.Tallies()
         self.build_default_materials_and_geometry()
         self.build_default_settings()
 
@@ -18,7 +18,7 @@ class CoreInputSet(object):
         self.settings.export_to_xml()
         self.materials.export_to_xml()
         self.geometry.export_to_xml()
-        if self.tallies is not None:
+        if self.tallies:
             self.tallies.export_to_xml()
 
     def build_default_materials_and_geometry(self):
@@ -469,7 +469,7 @@ class PinCellInputSet(object):
         self.settings = openmc.Settings()
         self.materials = openmc.Materials()
         self.geometry = openmc.Geometry()
-        self.tallies = None
+        self.tallies = openmc.Tallies()
         self.build_default_materials_and_geometry()
         self.build_default_settings()
 
@@ -477,7 +477,7 @@ class PinCellInputSet(object):
         self.settings.export_to_xml()
         self.materials.export_to_xml()
         self.geometry.export_to_xml()
-        if self.tallies is not None:
+        if self.tallies:
             self.tallies.export_to_xml()
 
     def build_default_materials_and_geometry(self):
@@ -548,7 +548,7 @@ class AssemblyInputSet(object):
         self.settings = openmc.Settings()
         self.materials = openmc.Materials()
         self.geometry = openmc.Geometry()
-        self.tallies = None
+        self.tallies = openmc.Tallies()
         self.build_default_materials_and_geometry()
         self.build_default_settings()
 
@@ -556,7 +556,7 @@ class AssemblyInputSet(object):
         self.settings.export_to_xml()
         self.materials.export_to_xml()
         self.geometry.export_to_xml()
-        if self.tallies is not None:
+        if self.tallies:
             self.tallies.export_to_xml()
 
     def build_default_materials_and_geometry(self):
