@@ -108,7 +108,7 @@
   \item \obj{True} and \obj{False}
   \item Result from comparison operators: <, <=, >, <=, !=, ==, \obj{is},
     \obj{is not},
-  \item Used in \obj{if} amd \obj{while} loops
+  \item Used in \obj{if} and \obj{while} loops
   \item Logical operators: \obj{and}, \obj{or}, \obj{not}
   \end{itemize}
 \end{frame}
@@ -133,6 +133,39 @@
   % Can add lists together
 \end{frame}
 
+\begin{frame}[fragile]{Sets}
+  \begin{itemize}
+  \item Unordered collection of distinct (hashable) objects
+  \item Construct with \obj{set()} or \obj{\{'s', 3, 2.0\}}
+    \begin{itemize}
+    \item However, \obj{\{\}} is not a set
+    \end{itemize}
+  \item Methods: \obj{add()}, \obj{difference()}, \obj{intersection()},
+    \obj{union()}
+  \item Can also use operators: \obj{in}, \obj{\&}, \obj{|}, \obj{-}, \obj{\^}
+  \item Get length with \obj{len()}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Dictionaries}
+  \begin{itemize}
+  \item Mapping or associative array
+  \item Indexed by \emph{key} rather than by a range of numbers
+  \item Construct with \obj{dict()} or \obj{\{'a': 1, 'b': 2, ...\}}
+  \item Set item:
+    \begin{python}
+      person = {'eyecolor': 'blue', 'age': 15}
+      person['name'] = 'John'
+      print(person['age'])
+    \end{python}
+  \item Iterate with \obj{keys()}, \obj{values()}, \obj{items()}
+  \item Other methods: \obj{get()}
+  \item Delete a key with \obj{del}
+  \item Get length with \obj{len()}
+  \item \obj{in} operator compares against keys, not values
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{Conditional statement}
   \begin{itemize}
   \item Basic syntax:
@@ -140,6 +173,11 @@
         if condition:
             statement 1
             statement 2
+            ...
+        elif condition2:
+            statement 3
+            ...
+        else:
             ...
     \end{python}
   \item Lines below the \obj{if} must be indented the same
