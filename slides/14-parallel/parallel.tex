@@ -136,13 +136,18 @@
   \end{shell}
 \end{frame}
 
-\begin{frame}{General Advice}
+\begin{frame}[fragile]{General Advice}
   \begin{itemize}
   \item Use OpenMP within each NUMA node
   \item Make sure number of particles per generation is large enough (reduces
     relative time for fission bank and tally synchronization)
   \item Use hardware threading if available (e.g., Intel hyperthreading)
   \item Use process binding
+  \item For simulations with tons of tallies, turn off \obj{tallies.out}
+    generation:
+    \begin{python}
+      settings.output = {'tallies': False}
+    \end{python}
   \end{itemize}
 \end{frame}
 

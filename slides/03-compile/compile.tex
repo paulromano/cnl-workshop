@@ -111,6 +111,7 @@
       matplotlib &  & Plotting support \\
       pandas & 0.16+ & Tally DataFrames \\
       uncertainties &  & Nuclear data uncertainties \\
+      Cython & Resonance reconstruction \\
       \bottomrule
     \end{tabular}
     }
@@ -131,8 +132,9 @@
   \vfill
   Create and activate environment with packages needed:
   \begin{shell}[minted options={fontsize=\tiny}]
-    conda create -n openmc numpy scipy h5py matplotlib pandas
+    conda create -n openmc numpy scipy h5py matplotlib pandas cython
     source activate openmc
+    pip install uncertainties
   \end{shell}
 \end{frame}
 

@@ -1,10 +1,10 @@
 \documentclass[noamssymb,svgnames]{beamer}
 \usecolortheme{beaver}
-\useinnertheme[shadow]{rounded}
 \usefonttheme{serif}
 \usefonttheme{professionalfonts}
 
 \usepackage[bitstream-charter]{mathdesign} % Use BT Charter font
+\usepackage{beramono}                      % Use Vera Mono for \ttfamily
 \usepackage[T1]{fontenc}                   % Use T1 encoding instead of OT1
 \usepackage[utf8]{inputenc}                % Use UTF8 input encoding
 \usepackage{microtype}                     % Improve typography
@@ -55,13 +55,26 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Python}
+  \begin{itemize}
+  \item Follow ``the'' Python style guide, PEP8
+  \item All functions/classes must be documented
+    \begin{itemize}
+    \item ``docstrings'' are used to build HTML documentation
+    \end{itemize}
+  \item Compatible with Python 2.7 and 3.2+
+  \item Limit use of non-standard library modules
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Major modules --- Initialization}
   \begin{itemize}
   \item\textbf{initialize} --- Overall logic for initialization, reading
     command line arguments, starting up MPI, etc.
   \item\textbf{input\_xml} --- Read and parse data from input XML files.
-  \item\textbf{ace} --- Reads ACE format cross sections from ASCII or binary
-    files are stores them in derived data types.
+  \item\textbf{xml\_interface} --- Functions for converting string data in XML
+    to numbers, arrays, etc.
+  \item\textbf{nuclide\_header} --- Logic for reading continuous-energy HDF5 data
   \item\textbf{tally\_initialize} --- Sets up data structures that allow for
     efficient tallying during the simulation.
   \end{itemize}
@@ -86,8 +99,9 @@
 \begin{frame}{Major modules --- End of simulation}
   \begin{itemize}
   \item\textbf{finalize} --- Overall logic for finishing run
-  \item\textbf{state\_point} --- Create binary/HDF5 state points that
-    contain tally results, source sites, metadata, etc.
+  \item\textbf{state\_point} --- Create HDF5 state points that contain tally
+    results, source sites, metadata, etc.
+  \item\textbf{summary} --- Create geometry summary file
   \item\textbf{output} --- Write plain ASCII files and standard output
   \end{itemize}
 \end{frame}
@@ -99,10 +113,10 @@
     congruential generator
   \item\textbf{plot} --- Create rasterized plots (PPM) that can easily be
     converted to PNGs
-  \item\textbf{list\_header, set\_header, dict\_header} --- Provide
-    implementation of lists (vectors), sets, and dictionaries (maps)
-  \item\textbf{xml-fortran/} --- System which provides capability to read
-    XML files
+  \item\textbf{volume\_calc} --- Stochastic volume calculations
+  \item\textbf{list\_header, set\_header, dict\_header, stl\_vector} --- Provide
+    implementation of linked lists, sets, dictionaries, and vectors
+  \item\textbf{pugixml/} --- C++ library for parsing XML
   \end{itemize}
 \end{frame}
 
@@ -129,10 +143,19 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing}
-\end{frame}
-
 \begin{frame}{Continuous Integration}
+  \begin{itemize}
+  \item Regression test suite consisting of 82 problems
+  \item Every time pull request is submitted/updated, Travis CI:
+    \begin{itemize}
+    \item Installs gcc, g++, cmake, etc.
+    \item Installs Python and third-party packages
+    \item Downloads HDF5 data
+    \item Builds OpenMC
+    \item Runs test suite on both Python 2.7 and Python 3.4, with several
+      different build configurations
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Why you should use OpenMC}
@@ -158,7 +181,14 @@
 \end{frame}
 
 \begin{frame}{Guidelines for Review}
-
+  \begin{itemize}
+  \item Clear purpose and useful
+  \item Compiles under all configurations, passes test suite
+  \item Test cases are added, if appropriate
+  \item Conforms to style guide
+  \item New features/input documented
+  \item No unnecessary software dependencies introduced
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Integration manager workflow}
@@ -176,6 +206,14 @@
   \item Interoperating with other community codes: MOOSE, Shift, Geant, PyNE
   \item Structure as a library
   \item Developer talent pool
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Contact}
+  \begin{itemize}
+  \item Work Email: promano@anl.gov
+  \item Personal Email: paul.k.romano@gmail.com
+  \item Work Tel.: +1 630 252-6779 (Wed-Fri)
   \end{itemize}
 \end{frame}
 
